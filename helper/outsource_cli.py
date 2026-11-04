@@ -13,7 +13,7 @@ Environment (all optional):
     OUTSOURCE_AGY_MODEL      model for agy              (default: agy_ask.py's own default)
     OUTSOURCE_CLAUDE_MODEL   model alias for Claude     (default: haiku, the cheapest)
     OUTSOURCE_CLAUDE_EFFORT  low|medium|high|xhigh|max  (default: low)
-    OUTSOURCE_CODEX_EFFORT   minimal|low|medium|high    (default: low)
+    OUTSOURCE_CODEX_EFFORT   low|medium|high|xhigh       (default: low)
     OUTSOURCE_CODEX_MODEL    model for Codex            (default: Codex's own default)
 """
 import glob
@@ -89,7 +89,16 @@ def find_codex():
     env = os.environ.get('CODEX_EXE')
     if env and Path(env).is_file():
         return env
-    return shutil.which('codex') or shutil.which('codex.cmd') or shutil.which('codex.exe')
+    on_path = shutil.which('codex') or shutil.which('codex.cmd') or shutil.which('codex.exe')
+    if on_path:
+        return on_path
+    # the VS Code / Cursor ChatGPT extension ships its own copy: <ext>/openai.chatgpt-<version>/bin/<platform>/codex(.exe)
+    hits = []
+    for ide in ('.vscode', '.cursor', '.vscode-insiders'):
+        base = os.path.join(str(HOME), ide, 'extensions', 'openai.chatgpt-*', 'bin', '*')
+        hits += glob.glob(os.path.join(base, 'codex.exe')) + glob.glob(os.path.join(base, 'codex'))
+    hits = [h for h in hits if Path(h).is_file()]
+    return max(hits, key=_version_key) if hits else None
 
 
 def available():
@@ -140,7 +149,8 @@ def run_codex(text, timeout, instruction=''):
         raise RuntimeError('Codex CLI not found (set CODEX_EXE)')
     with tempfile.TemporaryDirectory() as cwd:
         last = Path(cwd) / 'last.txt'
-        cmd = [exe, 'exec', '--skip-git-repo-check', '-s', 'read-only', '-C', cwd, '-o', str(last),
+        # read-only sandbox in an empty temp dir, no session files kept, prompt on stdin ("-")
+        cmd = [exe, 'exec', '--skip-git-repo-check', '--ephemeral', '-s', 'read-only', '-C', cwd, '-o', str(last),
                '-c', 'model_reasoning_effort="%s"' % (os.environ.get('OUTSOURCE_CODEX_EFFORT') or 'low')]
         if os.environ.get('OUTSOURCE_CODEX_MODEL'):
             cmd += ['-m', os.environ['OUTSOURCE_CODEX_MODEL']]
@@ -149,7 +159,10 @@ def run_codex(text, timeout, instruction=''):
                            encoding='utf-8', errors='replace', timeout=timeout, cwd=cwd, creationflags=CREATE_NO_WINDOW)
         out = last.read_text(encoding='utf-8', errors='replace').strip() if last.exists() else (r.stdout or '').strip()
     if r.returncode != 0 or not out:
-        raise RuntimeError('Codex failed: ' + ((r.stderr or out or '').strip()[-300:] or f'exit {r.returncode}'))
+        why = (r.stderr or out or '').strip()[-300:] or f'exit {r.returncode}'
+        if any(w in why.lower() for w in ('login', 'auth', 'sign in', 'api key')):
+            why += '  -> run once: codex login'
+        raise RuntimeError('Codex failed: ' + why)
     return out
 
 
