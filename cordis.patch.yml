@@ -1,0 +1,18 @@
+# Bundle patch layer: registers the `outsource` summarizer route (a model route that is never shown in the
+# model menu). Point a compaction row at it with summarizationProvider: outsource / summarizationModel: auto.
+#
+# WARNING: with any helper chosen (anything but "off"), the conversation text is sent to that outside AI.
+# Keep it OFF for private or sensitive sessions, especially output of an uncensored local model. The outside AI
+# may refuse (detected, the main model writes the checkpoint instead) or silently drop content (NOT detected),
+# and sending such content to a third-party service may breach its terms and get the account flagged.
+- insert:
+    - id: compaction-outsource
+      name: dsh-compaction-outsource
+      config:
+        # Where the live choice (config.json), usage log and last-compaction status live.
+        # The monitor tab's selector writes the same file.
+        # dataDir: ~/.dsh/outsource
+        # The model that writes the checkpoint when the choice is "off" or a helper fails
+        # (normally your main / local model). REQUIRED for the off/fallback path.
+        fallbackProvider: ''
+        fallbackModel: ''

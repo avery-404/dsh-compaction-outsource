@@ -1,0 +1,38 @@
+{
+  "name": "dsh-compaction-outsource",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness (DSH) plugin: let agy, DeepSeek or Claude write the compaction checkpoint instead of a slow local model. Switchable live, off by default, usage-logged.",
+  "type": "module",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "helper",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22.14"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-llm": "^0.2.0-rc.2"
+  },
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "author": "avery02072003-cmyk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avery02072003-cmyk/dsh-compaction-outsource.git"
+  },
+  "homepage": "https://github.com/avery02072003-cmyk/dsh-compaction-outsource",
+  "keywords": ["dsh", "deepseek-harness", "compaction", "summarization", "local-llm", "plugin"]
+}
