@@ -1,7 +1,7 @@
 {
   "name": "dsh-compaction-outsource",
   "version": "0.1.0",
-  "description": "DeepSeek Harness (DSH) plugin: let agy, DeepSeek or Claude write the compaction checkpoint instead of a slow local model. Switchable live, off by default, usage-logged.",
+  "description": "DeepSeek Harness (DSH) plugin: let agy, DeepSeek, Claude or Codex write the compaction checkpoint instead of a slow local model. Switchable live, off by default, usage-logged.",
   "type": "module",
   "license": "MIT",
   "main": "lib/index.js",
