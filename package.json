@@ -28,11 +28,11 @@
       "patch": "./cordis.patch.yml"
     }
   },
-  "author": "avery02072003-cmyk",
+  "author": "avery-404",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/avery02072003-cmyk/dsh-compaction-outsource.git"
+    "url": "git+https://github.com/avery-404/dsh-compaction-outsource.git"
   },
-  "homepage": "https://github.com/avery02072003-cmyk/dsh-compaction-outsource",
+  "homepage": "https://github.com/avery-404/dsh-compaction-outsource",
   "keywords": ["dsh", "deepseek-harness", "compaction", "summarization", "local-llm", "plugin"]
 }

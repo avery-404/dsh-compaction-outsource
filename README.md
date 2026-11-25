@@ -39,7 +39,7 @@ Model and effort are chosen per tool: DeepSeek `off / low / high / max`, Claude 
 
 ## Install
 
-1. In DSH open **Plugins** → **Add plugin** and paste `https://github.com/avery02072003-cmyk/dsh-compaction-outsource`, press **Install**, then **Enable now**.
+1. In DSH open **Plugins** → **Add plugin** and paste `https://github.com/avery-404/dsh-compaction-outsource`, press **Install**, then **Enable now**.
 2. Point your compaction row at the route and name your main model as the fallback. In the profile's `cordis.patch.yml`:
 
    ```yaml
@@ -64,7 +64,7 @@ Model and effort are chosen per tool: DeepSeek `off / low / high / max`, Claude 
    ```
 
    (With the "off" choice nothing leaves your machine and the main model writes the checkpoint exactly as before.)
-3. Choose the helper in the **Outsourcing** section of [dsh-llm-monitor](https://github.com/avery02072003-cmyk/dsh-llm-monitor), or edit `<dataDir>/config.json`:
+3. Choose the helper in the **Outsourcing** section of [dsh-llm-monitor](https://github.com/avery-404/dsh-llm-monitor), or edit `<dataDir>/config.json`:
 
    ```json
    { "backend": "agy", "models": { "agy": "gemini-3.8-flash-high" }, "efforts": {} }
@@ -127,7 +127,7 @@ MIT
 
 ### 安裝
 
-1. 在 DSH 開啟**插件** →**添加插件**，貼上 `https://github.com/avery02072003-cmyk/dsh-compaction-outsource`，按**安装**，再按**立即启用**。
+1. 在 DSH 開啟**插件** →**添加插件**，貼上 `https://github.com/avery-404/dsh-compaction-outsource`，按**安装**，再按**立即启用**。
 2. 把壓縮列指向這條路由，並把你的主模型設為備援。在 profile 的 `cordis.patch.yml`：
 
    ```yaml
@@ -152,7 +152,7 @@ MIT
    ```
 
    （選「關閉」時沒有任何東西離開你的電腦，檢查點跟原本一樣由主模型寫。）
-3. 到 [dsh-llm-monitor](https://github.com/avery02072003-cmyk/dsh-llm-monitor) 的**外包（Outsourcing）**區塊選擇要用的 AI，或直接編輯 `<dataDir>/config.json`：
+3. 到 [dsh-llm-monitor](https://github.com/avery-404/dsh-llm-monitor) 的**外包（Outsourcing）**區塊選擇要用的 AI，或直接編輯 `<dataDir>/config.json`：
 
    ```json
    { "backend": "agy", "models": { "agy": "gemini-3.8-flash-high" }, "efforts": {} }
